@@ -212,8 +212,14 @@ export class StoreController {
   }
 
   private setAuthCookies(res: Response, accessToken: string, refreshToken: string) {
-    const secure = this.config.get<string>('COOKIE_SECURE') === 'true';
-    const base = { httpOnly: true, secure, sameSite: 'lax' as const, path: '/' };
+    const secure =
+      this.config.get<string>('COOKIE_SECURE') === 'true' || process.env.NODE_ENV === 'production';
+    const base = {
+      httpOnly: true,
+      secure,
+      sameSite: (secure ? 'none' : 'lax') as 'none' | 'lax',
+      path: '/',
+    };
     res.cookie('access_token', accessToken, { ...base, maxAge: 15 * 60 * 1000 });
     res.cookie('refresh_token', refreshToken, { ...base, maxAge: 7 * 24 * 60 * 60 * 1000 });
   }
