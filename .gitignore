@@ -33,6 +33,9 @@ Thumbs.db
 !.vscode/extensions.json
 !.vscode/settings.json
 
+# Vercel local link (do not commit)
+.vercel/
+
 # Uploads / temp
 uploads/
 tmp/
