@@ -75,7 +75,15 @@ export class AuthController {
   }
 
   private clearAuthCookies(res: Response) {
-    res.clearCookie('access_token', { path: '/' });
-    res.clearCookie('refresh_token', { path: '/' });
+    const secure =
+      this.config.get<string>('COOKIE_SECURE') === 'true' || process.env.NODE_ENV === 'production';
+    const base = {
+      httpOnly: true,
+      secure,
+      sameSite: (secure ? 'none' : 'lax') as 'none' | 'lax',
+      path: '/',
+    };
+    res.clearCookie('access_token', base);
+    res.clearCookie('refresh_token', base);
   }
 }

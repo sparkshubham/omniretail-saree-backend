@@ -6,6 +6,10 @@ import express from 'express';
 import { AppModule } from '../src/app.module';
 import { configureApp } from '../src/configure-app';
 
+export const config = {
+  maxDuration: 30,
+};
+
 let cachedServer: express.Express | undefined;
 
 async function createServer(): Promise<express.Express> {
